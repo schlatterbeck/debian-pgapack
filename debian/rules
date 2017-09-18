@@ -1,0 +1,185 @@
+#!/usr/bin/make -f 					
+# 							-*- makefile -*-
+# debian/rules file for the Debian/GNU Linux pgapack package
+# Copyright 2006 - 2007 by Dirk Eddelbuettel <edd@debian.org>
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+package		:= $(shell head -1 debian/changelog | cut -f1 -d" ")
+libname 	:= lib${package}
+
+major 		:= 1
+minor 		:= 0
+
+serbasename	:= ${package}-serial
+serpackage	:= lib${serbasename}${major}
+mpibasename 	:= ${package}-mpi
+mpipackage	:= lib${mpibasename}${major}
+
+staticlib 	:= ${serpackage}.a
+sharedfull 	:= ${serpackage}.so.${major}.${minor}
+sharedshort 	:= ${serpackage}.so.${major}
+sharedlib 	:= ${serpackage}.so
+
+mpistaticlib 	:= ${mpipackage}.a
+mpisharedfull 	:= ${mpipackage}.so.${major}.${minor}
+mpisharedshort 	:= ${mpipackage}.so.${major}
+mpisharedlib 	:= ${mpipackage}.so
+
+cflags		:= -O3 -fPIC -D_REENTRANT -Wall
+cc		:= gcc
+
+debdir		:= debian/${package}
+
+build: build-stamp
+build-stamp:
+		dh_testdir
+                # if we have OpenMPI -- will fail if we have LAM, hence the '-test' use
+                # Open MPI shared library version --> we use the shared and static library version
+		-test -d /usr/lib/openmpi && \
+			./configure -arch linux -cc gcc -cflags "${cflags}" \
+				-mpiinc /usr/lib/openmpi/include -mpilib /usr/lib/libmpi.so && \
+			cd source && $(MAKE) && cd -
+                # if we have MPICH2 -- will fail if we have only LAM or OpenMPI, hence '-test'
+		-test -d /usr/include/mpich2 && \
+			./configure -arch linux -cc mpicc.mpich2 -cflags "${cflags}" \
+				-mpiinc /usr/include/mpich2 -mpilib /usr/lib/libmpich.so && \
+			cd source && $(MAKE) && cd -
+                # if we have LAM -- will fail if we have OpenMPI, hence the '-test' use
+                # lam shared library version --> we use the shared and static library version
+		-test -d /usr/include/lam && \
+			./configure -arch linux -cc gcc -cflags "${cflags}" \
+				-mpiinc /usr/include/lam -mpilib /usr/lib/liblam.so && \
+			cd source && $(MAKE) && cd -
+                # need to rename static library from non-standard name, and
+                # need to build shared library by hand
+		(cd lib/linux/ 		&& \
+			mv -v libpgaO.a ${mpistaticlib} && \
+			$(cc) -shared -Wl,-soname,${mpisharedshort} -o ${mpisharedfull} *.o && \
+			rm *.o)
+		mv lib/linux lib/linux-mpi
+
+                # serial version --> we use the shared library version
+		./configure -arch linux -cc gcc -cflags "${cflags}" 
+		(cd source && $(MAKE))
+                # need to rename static library from non-standard name, and
+                # need to build shared library by hand
+		(cd lib/linux/ 		&& \
+			rm -v libpgaO.a && \
+			$(cc) -shared -Wl,-soname,${sharedshort} -o ${sharedfull} *.o && \
+			rm *.o)
+		mv lib/linux lib/linux-serial
+
+                # (serial) debug version --> we use the static library
+		./configure -arch linux -cc gcc -cflags "${cflags}" -debug
+		(cd source && $(MAKE))
+                # need to rename static library from non-standard name, and
+                # need to build shared library by hand
+		(cd lib/linux/ 		&& \
+			mv -v libpgag.a ${staticlib} && \
+			rm *.o)
+		mv lib/linux/${staticlib} lib/linux-serial
+
+                # fix up manual pages in man/manl section
+		(cd man/manl && \
+			for f in *.l; do \
+				perl -p -i -e 's/(\.TH) (\w+) l /$$1 $$2 3 /' $$f; \
+			done )
+
+		touch build-stamp
+
+clean:
+		dh_testdir
+		dh_testroot
+		rm -f build-stamp
+
+		-rm -vrf lib/linux lib/linux-mpi lib/linux-debug lib/linux-serial
+		-rm -vrf tmpman
+		-rm -vf test/*.h examples/fortran/*.h examples/mgh/*.h 
+		-rm -vf include/mpi.h include/mpif.h
+		-rm -vf config.status
+
+		dh_clean
+
+		-find . -name Makefile | xargs rm -f
+
+                # Add here commands to clean up after the build process.
+		[ ! -f Makefile ] || $(MAKE) clean
+
+install: 	build
+		dh_testdir
+		dh_testroot
+		dh_clean -k
+		dh_installdirs
+
+                # Add here commands to install the package into debian/<packagename>
+                #$(MAKE) prefix=`pwd`/debian/`dh_listpackages`/usr install
+
+		dh_install -p${serpackage} lib/linux-serial/lib*	usr/lib/
+		(cd debian/${serpackage}/usr/lib 			&& \
+			ln -s ${sharedfull} ${sharedshort} 	&& \
+			ln -s ${sharedshort} ${sharedlib} )
+		dh_install -p${serpackage} include/*		usr/include/${serbasename}/
+                # while has its own mpi headers, we need to fake them for serial
+		(cd debian/${serpackage}/usr/include/${serbasename} && \
+			mv -v fakempif_h mpif.h && \
+			mv -v fakempi_h mpi.h)
+
+
+		dh_install -p${mpipackage} lib/linux-mpi/lib* 	usr/lib/
+		(cd debian/${mpipackage}/usr/lib 			&& \
+			ln -s ${mpisharedfull} ${mpisharedshort} 	&& \
+			ln -s ${mpisharedshort} ${mpisharedlib} )
+		dh_install -p${mpipackage} include/p*		usr/include/${mpibasename}/
+
+		dh_installdirs -p${mpipackage} usr/share/lintian/overrides
+		install -v -c -m 0644 debian/${mpipackage}.overrides 	\
+				debian/${mpipackage}/usr/share/lintian/overrides/${mpipackage}
+		dh_installdirs -p${serpackage} usr/share/lintian/overrides
+		install -v -c -m 0644 debian/${serpackage}.overrides 	\
+				debian/${serpackage}/usr/share/lintian/overrides/${serpackage}
+
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+		dh_testdir
+		dh_testroot
+		dh_installchangelogs	
+		dh_installdocs
+		dh_installdocs		-p${package}	test/ util/ 	
+		dh_installexamples	-p${package}	examples/*
+		rm -vf debian/${package}/usr/share/doc/pgapack/test/*.h \
+			debian/${package}/usr/share/doc/pgapack/examples/*/*.h	
+#		dh_install
+#		dh_installmenu
+#		dh_installdebconf	
+#		dh_installlogrotate
+#		dh_installemacsen
+#		dh_installcatalogs
+#		dh_installpam
+#		dh_installmime
+#		dh_installinit
+#		dh_installcron
+#		dh_installinfo
+#		dh_undocumented
+		dh_installman		-p${package}	man/man*/*
+		dh_link
+		dh_strip
+		dh_compress
+		dh_fixperms
+#		dh_perl
+#		dh_python
+		dh_makeshlibs
+		dh_installdeb
+		dh_shlibdeps
+		dh_gencontrol
+		dh_md5sums
+		dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

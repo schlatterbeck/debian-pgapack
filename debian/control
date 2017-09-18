@@ -1,0 +1,46 @@
+Source: pgapack
+Section: math
+Priority: optional
+Maintainer: Dirk Eddelbuettel <edd@debian.org>
+Standards-Version: 3.9.1
+Build-Depends: debhelper (>= 7.0), mpi-default-dev
+
+Package: pgapack
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: libpgapack-serial1 | libpgapack-mpi1
+Description: General-purpose genetic algorithm package
+ PGAPack is a general-purpose, data-structure-neutral, parallel genetic
+ algorithm package being developed at Argonne National Laboratory.
+ .
+ This package contains header files, manual pages, examples and tests.
+ To use pgpack, you need to install the libpgapack-serial ('single cpu') 
+ or libpgapack-mpi ('parallel') package.
+
+Package: libpgapack-serial1
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, pgapack
+Description: General-purpose genetic algorithm package (serial library)
+ PGAPack is a general-purpose, data-structure-neutral, parallel genetic
+ algorithm package being developed at Argonne National Laboratory.
+ .
+ This package contains a shared and a static library configured for 
+ serial 'single-cpu' processing. The static library also contains debugging
+ information.  The sibbling package pgapack-mpi1 is configured for MPI
+ parallel processing.
+ .
+ This version is configured for single-cpu serial processing. The
+ libpgapack-mpi1 package contains the library for distributed
+ programming.
+
+Package: libpgapack-mpi1
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, pgapack, mpi-default-bin
+Description: General-purpose genetic algorithm package (mpi library)
+ PGAPack is a general-purpose, data-structure-neutral, parallel genetic
+ algorithm package being developed at Argonne National Laboratory.
+ .
+ This version is configured to use the Open MPI (or LAM) libraries for
+ distributed programming. The libpgapack-serial1 package contains
+ (shared and static) libraries for single-cpu serial processing.
+

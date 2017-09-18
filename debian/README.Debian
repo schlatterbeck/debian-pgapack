@@ -1,0 +1,45 @@
+
+The test/ directory code can be used via
+
+    gcc -o instverf instverf.c \
+    	-O3 -s -Wall -Dlinux -DWL=32 -DFORTRANUNDERSCORE -DFAKE_MPI \
+    	-I/usr/include/pgapack-serial -lpgapack-serial1 -lm 
+
+and running instverf in that directory against the precomputed reference data
+passes all tests (and just throws up two gcc warnings that can be ignored).
+
+
+[ The text below is from October 2006 or below. ]
+
+
+pgapack/README.Debian
+
+There are some known problems with user_guide.ps.
+
+/usr/share/doc/pgapack/user_guide.ps.gz, page 19, section "Population
+replacement" talks about PGASetPopReplacementType two times. There is no
+such function, it should instead talk about PGASetPopReplaceType.
+(reported by Marcin Owsiany <porridge@debian.org>)
+
+/usr/share/doc/pgapack/user_guide.ps.gz, at the end of section 5.7 "Mutation"
+says:
+]    Some of the integer- and real-valued mutation operators generate
+]    allele values outside the initialization range of that gene. If this
+]    happens, by default, the allele value will be reset to the lower (upper)
+]    value of the initialization range for that gene. By setting
+]    PGASetMutationBoundedFlag(ctx, PGA_FALSE) the allele values will 
+]    NOT be reset if they fall outside of the initialization range.
+manual page for PGASetMutationBoundedFlag says:
+]    PGASetMutationBoundedFlag  -  If  this  flag is set to PGA_TRUE, then for Integer and
+]    Real strings whenever a gene is mutated,  if  it  underflows  (overflows)  the  lower
+]    (upper)bound  it  is reset to the lower (upper) bound.  In this way all allele values
+]    remain within the range the integer strings were initialized on.   If  this  flag  is
+]    PGA_FALSE (the default), the alleles may take any values.
+Which is exactly opposite!
+pgapack-1.0.0.1/source/create.c contains:
+]    if ( ctx-&gt;ga.MutateBoundedFlag == PGA_UNINITIALIZED_INT)
+]         ctx-&gt;ga.MutateBoundedFlag  = PGA_FALSE;
+Which seems to be consistent with what the manpage says.
+(reported by Marcin Owsiany <porridge@debian.org>)
+
+ -- Dirk Eddelbuettel <edd@debian.org>, Tue, 26 Feb 2008 21:21:57 -0600
