@@ -1,0 +1,2 @@
+libpgapack-mpich: non-dev-pkg-with-shlib-symlink usr/lib/libpgapack-mpich.so.1.0 usr/lib/libpgapack-mpich.so
+libpgapack-mpich: package-name-doesnt-match-sonames libpgapack-mpich-1

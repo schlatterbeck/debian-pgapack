@@ -1,0 +1,2 @@
+libpgapack-serial: non-dev-pkg-with-shlib-symlink usr/lib/libpgapack-serial.so.1.0 usr/lib/libpgapack-serial.so
+libpgapack-serial: package-name-doesnt-match-sonames libpgapack-serial-1

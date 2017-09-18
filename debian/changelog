@@ -1,9 +1,18 @@
 pgapack (1.1.2-1) unstable; urgency=low
 
   * New upstream version
-  * Manual is built from source
-  * Word length of architecture is now autodetected by upstream package
-  * Reported errors in manual have been corrected upstream
+  * Reported errors in user guide have been corrected upstream
+  * User guide is now built from source and included in debian package
+  * Formatting in user guide (overfull boxes) was fixed upstream
+  * Upstream: Word length of architecture is now autodetected
+  * Upstream Bug-Fix: PGAChange didn't call PGASetEvaluationUpToDateFlag
+    could result in wrong evaluations
+  * Upstream Bug-Fix: Restart now uses PGA_MUTATION_CONSTANT as
+    documented, it was using PGA_MUTATION_UNIFORM which failed for
+    integer genes
+  * Upstream: Declarations and data types for new MPI version 2
+    functions, now everything compiles without warnings against three
+    different MPI platforms
 
  -- Ralf Schlatterbeck <rsc@runtux.com>  Mon, 18 Sep 2017 15:53:45 +0200
 

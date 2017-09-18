@@ -14,13 +14,13 @@ major 		:= 1
 minor 		:= 0
 
 serbasename	:= ${package}-serial
-serpackage	:= lib${serbasename}${major}
+serpackage	:= lib${serbasename}
 openmpibasename := ${package}-openmpi
-openmpipackage	:= lib${openmpibasename}${major}
+openmpipackage	:= lib${openmpibasename}
 mpichbasename 	:= ${package}-mpich
-mpichpackage	:= lib${mpichbasename}${major}
+mpichpackage	:= lib${mpichbasename}
 lambasename 	:= ${package}-lam
-lampackage	:= lib${lambasename}${major}
+lampackage	:= lib${lambasename}
 
 staticlib 	:= ${serpackage}.a
 sharedfull 	:= ${serpackage}.so.${major}.${minor}
@@ -65,14 +65,14 @@ build-stamp:
 	    lib/generic-lam/${lamstaticlib}
 	mv -v lib/generic-serial/libpgapack.a \
 	    lib/generic-serial/${staticlib}
-	mv -v lib/generic-default/libpgapack-default.so.1.0 \
-	    lib/generic-default/${openmpisharedfull}
-	mv -v lib/generic-mpich/libpgapack-mpich.so.1.0   \
-	    lib/generic-mpich/${mpichsharedfull}
-	mv -v lib/generic-lam/libpgapack-lam.so.1.0     \
-	    lib/generic-lam/${lamsharedfull}
-	mv -v lib/generic-serial/libpgapack-serial.so.1.0  \
-	    lib/generic-serial/${sharedfull}
+	#mv -v lib/generic-default/libpgapack-default.so.1.0 \
+	#    lib/generic-default/${openmpisharedfull}
+	#mv -v lib/generic-mpich/libpgapack-mpich.so.1.0   \
+	#    lib/generic-mpich/${mpichsharedfull}
+	#mv -v lib/generic-lam/libpgapack-lam.so.1.0     \
+	#    lib/generic-lam/${lamsharedfull}
+	#mv -v lib/generic-serial/libpgapack-serial.so.1.0  \
+	#    lib/generic-serial/${sharedfull}
 
 	# fix up manual pages in man/manl section
 	(cd man/manl && \
@@ -85,7 +85,14 @@ build-stamp:
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp
+	rm -f build-stamp debian/.debhelper debian/files \
+	    debian/libpgapack-lam debian/libpgapack-mpich \
+	    debian/libpgapack-openmpi debian/libpgapack-serial \
+	    debian/pgapack libpgapack-lam.debhelper.log \
+	    libpgapack-lam.substvars libpgapack-mpich.debhelper.log \
+	    libpgapack-mpich.substvars libpgapack-openmpi.debhelper.log \
+	    libpgapack-openmpi.substvars libpgapack-serial.debhelper.log \
+	    libpgapack-serial.substvars
 	$(MAKE) clobber
 	-rm -vrf tmpman
 	dh_clean
@@ -139,18 +146,26 @@ install: 	build
 
 # Build architecture-independent files here.
 binary-indep: build install
-# We have nothing to do by default.
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_installdocs		-p${package}	test/ util/ 	
+	dh_installexamples	-p${package}	examples/*
+	dh_installchangelogs	
+	dh_installman		-p${package}	man/man*/*
+	install -v -c -m 0644 lib/generic-serial/user_guide.pdf \
+	    debian/${package}/usr/share/doc/${package}/
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
 
 # Build architecture-dependent files here.
 binary-arch: build install
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs	
-	dh_installdocs
-	dh_installdocs		-p${package}	test/ util/ 	
-	dh_installexamples	-p${package}	examples/*
-	rm -vf debian/${package}/usr/share/doc/pgapack/test/*.h \
-	debian/${package}/usr/share/doc/pgapack/examples/*/*.h	
 #	dh_install
 #	dh_installmenu
 #	dh_installdebconf	
@@ -163,7 +178,6 @@ binary-arch: build install
 #	dh_installcron
 #	dh_installinfo
 #	dh_undocumented
-	dh_installman		-p${package}	man/man*/*
 	dh_link
 	dh_strip
 	dh_compress
