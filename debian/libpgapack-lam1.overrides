@@ -1,0 +1,2 @@
+libpgapack-lam1: non-dev-pkg-with-shlib-symlink usr/lib/libpgapack-lam1.so.1.0 usr/lib/libpgapack-lam1.so
+libpgapack-lam1: package-name-doesnt-match-sonames libpgapack-lam1-1

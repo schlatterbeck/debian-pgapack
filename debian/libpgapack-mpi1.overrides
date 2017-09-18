@@ -1,2 +1,0 @@
-libpgapack-mpi1: non-dev-pkg-with-shlib-symlink usr/lib/libpgapack-mpi1.so.1.0 usr/lib/libpgapack-mpi1.so
-libpgapack-mpi1: package-name-doesnt-match-sonames libpgapack-mpi1-1
