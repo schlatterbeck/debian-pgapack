@@ -74,12 +74,6 @@ build-stamp:
 	#mv -v lib/generic-serial/libpgapack-serial.so.1.0  \
 	#    lib/generic-serial/${sharedfull}
 
-	# fix up manual pages in man/manl section
-	(cd man/manl && \
-	    for f in *.l; do \
-		perl -p -i -e 's/(\.TH) (\w+) l /$$1 $$2 3 /' $$f; \
-	    done )
-
 	touch build-stamp
 
 clean:
@@ -94,7 +88,6 @@ clean:
 	    libpgapack-openmpi.substvars libpgapack-serial.debhelper.log \
 	    libpgapack-serial.substvars
 	$(MAKE) clobber
-	-rm -vrf tmpman
 	dh_clean
 
 
@@ -152,7 +145,7 @@ binary-indep: build install
 	dh_installdocs		-p${package}	test/ util/ 	
 	dh_installexamples	-p${package}	examples/*
 	dh_installchangelogs	
-	dh_installman		-p${package}	man/man*/*
+	dh_installman		-p${package}	man/man3/*
 	install -v -c -m 0644 lib/generic-serial/user_guide.pdf \
 	    debian/${package}/usr/share/doc/${package}/
 	dh_fixperms
