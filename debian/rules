@@ -79,7 +79,7 @@ build-stamp:
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp debian/.debhelper debian/files \
+	rm -rf build-stamp debian/.debhelper debian/files \
 	    debian/libpgapack-lam debian/libpgapack-mpich \
 	    debian/libpgapack-openmpi debian/libpgapack-serial \
 	    debian/pgapack libpgapack-lam.debhelper.log \
