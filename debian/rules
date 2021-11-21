@@ -79,14 +79,14 @@ build-stamp:
 clean:
 	dh_testdir
 	dh_testroot
-	rm -rf build-stamp debian/.debhelper debian/files \
-	    debian/libpgapack-lam debian/libpgapack-mpich \
+	rm -rf debian/.debhelper debian/pgapack \
 	    debian/libpgapack-openmpi debian/libpgapack-serial \
-	    debian/pgapack libpgapack-lam.debhelper.log \
+	    debian/libpgapack-lam debian/libpgapack-mpich
+	rm -f build-stamp debian/files \
+	    libpgapack-serial.substvars libpgapack-lam.debhelper.log \
 	    libpgapack-lam.substvars libpgapack-mpich.debhelper.log \
 	    libpgapack-mpich.substvars libpgapack-openmpi.debhelper.log \
-	    libpgapack-openmpi.substvars libpgapack-serial.debhelper.log \
-	    libpgapack-serial.substvars
+	    libpgapack-openmpi.substvars libpgapack-serial.debhelper.log
 	$(MAKE) clobber
 	dh_clean
 
