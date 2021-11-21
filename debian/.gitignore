@@ -1,0 +1,8 @@
+.debhelper
+files
+libpgapack-lam
+libpgapack-mpich
+libpgapack-openmpi
+libpgapack-serial
+pgapack
+
