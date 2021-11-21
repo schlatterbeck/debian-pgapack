@@ -25,3 +25,7 @@ generic pgapack Debian package.
 This package was adapted from the effort of Dirk Eddelbuettel who
 maintained a pgapack debian package for several years after having
 negotiated a free license for PGApack with Argonne National Laboratory.
+
+.. _PGAPack: https://github.com/schlatterbeck/pgapack 
+.. _MPI: http://mpi-forum.org/ 
+
