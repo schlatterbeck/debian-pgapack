@@ -2,7 +2,7 @@
 # 							-*- makefile -*-
 # debian/rules file for the Debian/GNU Linux pgapack package
 # Copyright 2006 - 2007 by Dirk Eddelbuettel <edd@debian.org>
-# Copyright 2017 by Ralf Schlatterbeck <rsc@runtux.com>
+# Copyright 2017 - 2021 by Ralf Schlatterbeck <rsc@runtux.com>
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -10,8 +10,10 @@
 package		:= $(shell head -1 debian/changelog | cut -f1 -d" ")
 libname 	:= lib${package}
 
-major 		:= 1
-minor 		:= 0
+v_upstream      := $(shell cd pgapack && git describe)
+major 		:= $(firstword $(subst ., ,$(v_upstream)))
+minor 		:= $(word 2,$(subst ., ,$(subst -, ,$(v_upstream))))
+patchlevel      := $(or $(word 2,$(subst -, ,$(v_upstream))),0)
 
 serbasename	:= ${package}-serial
 serpackage	:= lib${serbasename}
@@ -23,22 +25,22 @@ lambasename 	:= ${package}-lam
 lampackage	:= lib${lambasename}
 
 staticlib 	:= ${serpackage}.a
-sharedfull 	:= ${serpackage}.so.${major}.${minor}
+sharedfull 	:= ${serpackage}.so.${major}.${minor}.${patchlevel}
 sharedshort 	:= ${serpackage}.so.${major}
 sharedlib 	:= ${serpackage}.so
 
 openmpistaticlib 	:= ${openmpipackage}.a
-openmpisharedfull 	:= ${openmpipackage}.so.${major}.${minor}
+openmpisharedfull 	:= ${openmpipackage}.so.${major}.${minor}.${patchlevel}
 openmpisharedshort 	:= ${openmpipackage}.so.${major}
 openmpisharedlib 	:= ${openmpipackage}.so
 
 mpichstaticlib	 	:= ${mpichpackage}.a
-mpichsharedfull 	:= ${mpichpackage}.so.${major}.${minor}
+mpichsharedfull 	:= ${mpichpackage}.so.${major}.${minor}.${patchlevel}
 mpichsharedshort 	:= ${mpichpackage}.so.${major}
 mpichsharedlib 		:= ${mpichpackage}.so
 
 lamstaticlib	 	:= ${lampackage}.a
-lamsharedfull	 	:= ${lampackage}.so.${major}.${minor}
+lamsharedfull	 	:= ${lampackage}.so.${major}.${minor}.${patchlevel}
 lamsharedshort 		:= ${lampackage}.so.${major}
 lamsharedlib 		:= ${lampackage}.so
 
@@ -48,7 +50,7 @@ build: build-stamp
 build-stamp:
 	dh_testdir
 	$(MAKE) CC=/usr/bin/mpicc.openmpi FC=/usr/bin/mpif77.openmpi \
-            MPI_INC= MPI_LIB=
+            MPI_INC= MPI_LIB= MPI=openmpi
 	$(MAKE) MPI=openmpi clean
 	$(MAKE) MPI=mpich
 	$(MAKE) MPI=mpich clean
@@ -57,22 +59,14 @@ build-stamp:
 	$(MAKE) MPI=serial
 	mv docs/user_guide.pdf lib/generic-serial
 	$(MAKE) MPI=serial clean
-	mv -v lib/generic-default/libpgapack.a \
-	    lib/generic-default/${openmpistaticlib}
+	mv -v lib/generic-openmpi/libpgapack.a \
+	    lib/generic-openmpi/${openmpistaticlib}
 	mv -v lib/generic-mpich/libpgapack.a \
 	    lib/generic-mpich/${mpichstaticlib}
 	mv -v lib/generic-lam/libpgapack.a \
 	    lib/generic-lam/${lamstaticlib}
 	mv -v lib/generic-serial/libpgapack.a \
 	    lib/generic-serial/${staticlib}
-	#mv -v lib/generic-default/libpgapack-default.so.1.0 \
-	#    lib/generic-default/${openmpisharedfull}
-	#mv -v lib/generic-mpich/libpgapack-mpich.so.1.0   \
-	#    lib/generic-mpich/${mpichsharedfull}
-	#mv -v lib/generic-lam/libpgapack-lam.so.1.0     \
-	#    lib/generic-lam/${lamsharedfull}
-	#mv -v lib/generic-serial/libpgapack-serial.so.1.0  \
-	#    lib/generic-serial/${sharedfull}
 
 	touch build-stamp
 
@@ -109,7 +103,7 @@ install: 	build
 	install -v -c -m 0644 debian/${serpackage}.overrides \
 	    debian/${serpackage}/usr/share/lintian/overrides/${serpackage}
 
-	dh_install -p${openmpipackage} lib/generic-default/lib* usr/lib/
+	dh_install -p${openmpipackage} lib/generic-openmpi/lib* usr/lib/
 	(cd debian/${openmpipackage}/usr/lib &&                 \
 	    ln -s ${openmpisharedfull} ${openmpisharedshort} && \
 	    ln -s ${openmpisharedshort} ${openmpisharedlib} )
