@@ -50,7 +50,7 @@ build: build-stamp
 build-stamp:
 	dh_testdir
 	$(MAKE) CC=/usr/bin/mpicc.openmpi FC=/usr/bin/mpif77.openmpi \
-            MPI_INC= MPI_LIB= MPI=openmpi
+	    MPI_INC= MPI_LIB= MPI=openmpi
 	$(MAKE) MPI=openmpi clean
 	$(MAKE) MPI=mpich
 	$(MAKE) MPI=mpich clean
@@ -69,6 +69,9 @@ build-stamp:
 	    lib/generic-serial/${staticlib}
 
 	touch build-stamp
+
+versioninfo:
+	@echo $(package) $(major).$(minor).$(patchlevel)
 
 clean:
 	dh_testdir
