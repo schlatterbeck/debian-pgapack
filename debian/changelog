@@ -1,3 +1,9 @@
+pgapack (1.4.11-1) stable; urgency=medium
+
+  * New upstream version with bug-fix
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Mon, 27 Dec 2021 12:30:50 +0100
+
 pgapack (1.4.9-1) stable; urgency=medium
 
   * New upstream version with minor features
