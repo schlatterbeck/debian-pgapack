@@ -1,3 +1,13 @@
+pgapack (1.4.17-1) stable; urgency=medium
+
+  * New upstream bug-fix for multi-objective string printing
+  * New upstream: for multi-objective optimization return one of the
+    best strings randomly in PGAGetBestIndex
+  * New upstream: Fine-grained tournament selection pressure with
+    floating-point value for tournament size
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Sat, 01 Jan 2022 12:32:44 +0100
+
 pgapack (1.4.11-1) stable; urgency=medium
 
   * New upstream version with bug-fix
