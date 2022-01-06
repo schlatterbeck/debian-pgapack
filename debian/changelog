@@ -1,3 +1,9 @@
+pgapack (1.4.25-1) stable; urgency=medium
+
+  * New upstream: polynomial mutation and simulated binary crossover (SBX)
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Thu, 06 Jan 2022 16:49:17 +0100
+
 pgapack (1.4.17-1) stable; urgency=medium
 
   * New upstream bug-fix for multi-objective string printing
