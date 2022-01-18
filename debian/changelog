@@ -1,3 +1,10 @@
+pgapack (1.5.1-1) stable; urgency=medium
+
+  * New upstream version
+  * NSGA-III for many-objective optimization
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Tue, 18 Jan 2022 16:14:38 +0100
+
 pgapack (1.4.27-1) stable; urgency=medium
 
   * Name fixes upstream
