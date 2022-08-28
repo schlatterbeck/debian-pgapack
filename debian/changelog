@@ -1,3 +1,11 @@
+pgapack (1.8.0-1) stable; urgency=medium
+
+  * New upstream
+  * Epsilon-constrained optimization
+  * Crossover for permutations (e.g. Traveling Salesman)
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Sun, 28 Aug 2022 15:37:03 +0200
+
 pgapack (1.5.1-1) stable; urgency=medium
 
   * New upstream version
