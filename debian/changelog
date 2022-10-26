@@ -1,3 +1,11 @@
+pgapack (2.0.0-1) stable; urgency=medium
+
+  * New upstream
+  * MPI serialization
+  * Optimization of duplicate checking
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Wed, 26 Oct 2022 13:41:02 +0200
+
 pgapack (1.8.0-1) stable; urgency=medium
 
   * New upstream
