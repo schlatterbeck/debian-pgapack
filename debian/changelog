@@ -1,3 +1,11 @@
+pgapack (2.1.0-1) stable; urgency=medium
+
+  * New upstream
+  * Test new output-redirect feature
+  * multiple bug-fixes
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Thu, 10 Nov 2022 13:24:25 +0100
+
 pgapack (2.0.0-1) stable; urgency=medium
 
   * New upstream
