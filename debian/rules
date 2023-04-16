@@ -57,7 +57,6 @@ build-stamp:
 	$(MAKE) MPI=lam
 	$(MAKE) MPI=lam clean
 	$(MAKE) MPI=serial
-	mv docs/user_guide.pdf lib/generic-serial
 	$(MAKE) MPI=serial clean
 	mv -v lib/generic-openmpi/libpgapack.a \
 	    lib/generic-openmpi/${openmpistaticlib}
@@ -143,8 +142,6 @@ binary-indep: build install
 	dh_installexamples	-p${package}	examples/*
 	dh_installchangelogs	
 	dh_installman		-p${package}	man/man3/*
-	install -v -c -m 0644 lib/generic-serial/user_guide.pdf \
-	    debian/${package}/usr/share/doc/${package}/
 	dh_fixperms
 	dh_installdeb
 	dh_gencontrol
