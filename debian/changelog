@@ -1,3 +1,9 @@
+pgapack (2.2.1-1) stable; urgency=medium
+
+  * Update to latest upstream release
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Sun, 16 Apr 2023 16:10:37 +0200
+
 pgapack (2.1.1-1) stable; urgency=medium
 
   * Upstream bug-fix for debian package
