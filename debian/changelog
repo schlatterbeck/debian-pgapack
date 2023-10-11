@@ -1,3 +1,13 @@
+pgapack (2.4) stable; urgency=medium
+
+  * New upstream
+  * Add Differential Evolution for integer
+  * Add Negative Assortative Mating option
+  * Fix feature interaction bug with duplicate avoidance and RTR
+    population replacement as well as differential evolution
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Wed, 11 Oct 2023 19:30:24 +0200
+
 pgapack (2.2.1-1) stable; urgency=medium
 
   * Update to latest upstream release

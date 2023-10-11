@@ -5,7 +5,7 @@ Maintainer: Ralf Schlatterbeck <rsc@runtux.com>
 Standards-Version: 3.9.1
 Build-Depends: debhelper (>= 7.0), libopenmpi-dev, libmpich-dev,
     lam4-dev, texlive-latex-base, ghostscript, libimage-exiftool-perl,
-    netpbm
+    netpbm, python3-sphinx
 
 Package: pgapack
 Architecture: all
