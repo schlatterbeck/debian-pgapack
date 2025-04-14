@@ -10,8 +10,8 @@ Build-Depends: debhelper (>= 7.0), libopenmpi-dev, libmpich-dev,
 Package: pgapack
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Suggests: libpgapack-serial1 | libpgapack-openmpi1 |
- libpgapack-mpich1 | libpgapack-lam1
+Suggests: libpgapack-serial | libpgapack-openmpi |
+ libpgapack-mpich | libpgapack-lam
 Description: General-purpose genetic algorithm package
  PGAPack is a general-purpose, data-structure-neutral, parallel genetic
  algorithm package being developed at Argonne National Laboratory.

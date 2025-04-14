@@ -1,10 +1,16 @@
+pgapack (2.6.1) stable; urgency=medium
+
+  * Fix suggested packages
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Mon, 14 Apr 2025 21:37:00 +0200
+
 pgapack (2.5) stable; urgency=medium
 
   * Update to latest upstream
   * Add install of .pc files
   * Alternatives handling
 
- -- Ralf Schlatterbeck <rsc@runtux.com>  Mon, 14 Apr 2025 09:09:25 +0200
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Mon, 14 Apr 2025 21:09:25 +0200
 
 pgapack (2.4) stable; urgency=medium
 
