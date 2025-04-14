@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = "configure" ]; then
+
+update-alternatives \
+        --install /usr/include/pgapack pgapack-@DEB_HOST_MULTIARCH@ /usr/include/pgapack-lam 30 \
+        --slave /usr/lib/@DEB_HOST_MULTIARCH@/libpgapack.so libpgapack.so-@DEB_HOST_MULTIARCH@ /usr/lib/@DEB_HOST_MULTIARCH@/libpgapack-lam.so \
+        --slave /usr/lib/@DEB_HOST_MULTIARCH@/pkgconfig/pgapack.pc pgapack.pc-@DEB_HOST_MULTIARCH@ /usr/lib/@DEB_HOST_MULTIARCH@/pkgconfig/pgapack-lam.pc
+
+fi
