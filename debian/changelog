@@ -1,4 +1,12 @@
-pgapack (2.6.1) stable; urgency=medium
+pgapack (2.6) stable; urgency=medium
+
+  * Update to latest upstream
+  * Implement new hillclimbing user-function
+  * Implement deterministic random generator
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Sat, 19 Apr 2025 10:02:14 +0200
+
+pgapack (2.5.1) stable; urgency=medium
 
   * Fix suggested packages
 
