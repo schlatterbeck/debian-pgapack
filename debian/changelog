@@ -1,3 +1,11 @@
+pgapack (2.7) stable; urgency=medium
+
+  * Update to latest upstream
+  * Permutation operators
+  * Some bug fixes, see pgapack release notes
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Wed, 30 Apr 2025 16:09:59 +0200
+
 pgapack (2.6) stable; urgency=medium
 
   * Update to latest upstream
