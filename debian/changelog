@@ -1,3 +1,10 @@
+pgapack (2.7.1) stable; urgency=medium
+
+  * Update to latest upstream
+  * Fix off-by-one error in two new crossover variants
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Wed, 07 May 2025 10:50:18 +0200
+
 pgapack (2.7) stable; urgency=medium
 
   * Update to latest upstream
