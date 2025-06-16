@@ -1,3 +1,10 @@
+pgapack (2.8) stable; urgency=medium
+
+  * Update to latest upstream
+  * Optimized non-dominated sorting (Jensen's algorithm)
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Mon, 16 Jun 2025 07:53:59 +0200
+
 pgapack (2.7.1) stable; urgency=medium
 
   * Update to latest upstream
