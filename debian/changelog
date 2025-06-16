@@ -1,3 +1,9 @@
+pgapack (2.8.2) stable; urgency=medium
+
+  * Upstream fix non-dominated sorting
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Mon, 16 Jun 2025 17:06:15 +0200
+
 pgapack (2.8.1) stable; urgency=medium
 
   * Upstream fix (don't use assert)
