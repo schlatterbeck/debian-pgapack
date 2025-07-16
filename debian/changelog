@@ -1,3 +1,9 @@
+pgapack (2.9) stable; urgency=medium
+
+  * Upstream implementation of new crowding metrics
+
+ -- Ralf Schlatterbeck <rsc@runtux.com>  Wed, 16 Jul 2025 15:54:30 +0200
+
 pgapack (2.8.2) stable; urgency=medium
 
   * Upstream fix non-dominated sorting
